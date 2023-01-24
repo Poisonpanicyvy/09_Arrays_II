@@ -2,10 +2,23 @@
 
 // push() / pop()
 // push --> Daten rein ... (+)
+let arr = [];
 
+output(arr);
+arr.push("Ich");
+output(arr);
+arr.push("bin");
+output(arr);
+arr.push("Max");
+output(arr);
 
 // pop() --> Daten raus ... (-)
-
+output(arr.pop());
+output(arr);
+output(arr.pop());
+output(arr);
+output(arr.pop());
+output(arr);
 
 
 /*
@@ -16,6 +29,7 @@ einer HTML-Seite ausgibt:
 Verwenden Sie dafür die untenstehenden Arrays
 */
 
+const ERR_STR   = "ERROR";
 const COBJ      = {open_o:"<",close_o:"</",close:">"}
 const CONTROLS  = ["<", "</", ">"];
 const TAGS = [  "html",
@@ -33,42 +47,49 @@ const TAGS = [  "html",
 let stack = [];
 
 // Modul: HTML-Synthese | Test
-output(getHTML());
+// output(getHTML());
 function getHTML() {
   
     let htmlStr = "";
 
     for (let i = 0; i < TAGS.length; i++) {
-        htmlStr += "</" + TAGS[i] + ">";
+        if (isOpenElement()) 
+        {
+            htmlStr += getElement(TAGS[i],"open");
+        } else {
+            htmlStr += getElement(TAGS[i],"close");
+        }
     }
 
    return htmlStr;
 }
 
 
-
 // Modul: Zusammenbau der Elements: <tagStr> --> Tests:
-output(getElement(TAGS[1],"open"));
-output(getElement(TAGS[1],"close"));
-output(getElement(TAGS[1]));
+// output(getElement(TAGS[1],"open"));
+// output(getElement(TAGS[1],"close"));
+// output(getElement(TAGS[1]));
 function getElement(tag,op) {
-
-switch (op) {
-    case "open":
-        return "<" + tag + ">";
-        
-        
-        case"close":
-        return "<" + tag + ">";
-
-    default:
-        return "ERROR";
+    switch (op) {
+        case "open":
+            return COBJ.open_o + tag + COBJ.close;
+        case "close":
+            return COBJ.close_o + tag + COBJ.close;
+        default:
+            return ERR_STR;
+    }
 }
 
+function isOpenElement() {
+    return false;
 }
+
+
+
 
 
 // Modul: Ausgabe | Test
 //output("hi");
 function output(outputData) {
-    console.log(outputData);}
+    console.log(outputData);
+}
